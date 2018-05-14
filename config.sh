@@ -11,7 +11,13 @@ function pre_build {
 
     yum install -y boost148-python boost148-devel sparsehash-devel bzip2-devel zlib-devel
 
-    ln -s /usr/lib64/libboost_python.so.1.48.0 /usr/lib64/libboost_python.so || ln -s /usr/lib/libboost_python.so.1.48.0 /usr/lib/libboost_python.so
+    if [ -e /usr/lib64/libboost_python.so.1.48.0  ] && [ ! -e /usr/lib64/libboost_python.so  ] ; then
+        ln -sf /usr/lib64/libboost_python.so.1.48.0 /usr/lib64/libboost_python.so
+    fi
+
+    if [ -e /usr/lib/libboost_python.so.1.48.0 ] && [ ! -e /usr/lib/libboost_python.so ] ; then
+        ln -s /usr/lib/libboost_python.so.1.48.0 /usr/lib/libboost_python.so
+    fi
 
     export BOOST_VERSION=148
     export LIBOSMIUM_PREFIX=/io/libosmium
