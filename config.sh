@@ -12,6 +12,7 @@ function pre_build {
 
     export BOOST_VERSION=148
     export LIBOSMIUM_PREFIX=/io/libosmium
+    export PROTOZERO_PREFIX=/io/protozero
 
 
     :
