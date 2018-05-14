@@ -1,0 +1,13 @@
+[submodule "multibuild"]
+	path = multibuild
+	url = https://github.com/matthew-brett/multibuild.git
+[submodule "pyosmium"]
+	path = pyosmium
+	url = https://github.com/wiktorn/pyosmium.git
+	branch = travis_wheel
+[submodule "libosmium"]
+	path = libosmium
+	url = https://github.com/osmcode/libosmium.git
+[submodule "protozero"]
+	path = protozero
+	url = https://github.com/mapbox/protozero
