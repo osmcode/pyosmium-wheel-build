@@ -13,15 +13,6 @@ function pre_build {
     export BOOST_VERSION=148
     export LIBOSMIUM_PREFIX=/io/libosmium
 
-    # fix problems with linker
-    echo lib64
-    ls /usr/lib64/*boost*
-    echo lib
-    ls /usr/lib/*boost*
-    echo include
-    ls -d /usr/include/*boost*
-    ln -s /usr/lib64/libboost_python.so.1.48.0 /usr/lib64/libboost_python.so || ln -s /usr/lib/libboost_python.so.1.48.0 /usr/lib/libboost_python.so
-
 
     :
 }
