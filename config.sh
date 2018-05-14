@@ -21,6 +21,6 @@ function pre_build {
 function run_tests {
     # Runs tests on installed distribution from an empty directory
     python --version
-    python pyosmium/tests/run_tests.py
+    python /io/pyosmium/tests/run_tests.py
     python -c "import osmium"
 }
