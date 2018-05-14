@@ -4,3 +4,6 @@
 [submodule "pyosmium"]
 	path = pyosmium
 	url = https://github.com/wiktorn/pyosmium.git
+[submodule "libosmium"]
+	path = libosmium
+	url = https://github.com/osmcode/libosmium.git
