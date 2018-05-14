@@ -8,7 +8,8 @@ function pre_build {
     # Any stuff that you need to do before you start building the wheels
     # Runs in the root directory of this repository.
 
-    yum install -y boost148-python boost148-devel sparsehash-devel bzip2-devel zlib-devel
+    # yum install -y boost148-python boost148-devel sparsehash-devel bzip2-devel zlib-devel
+    yum reinstall -y boost148-python boost148-devel sparsehash-devel bzip2-devel zlib-devel
 
     export BOOST_VERSION=148
     export LIBOSMIUM_PREFIX=/io/libosmium
