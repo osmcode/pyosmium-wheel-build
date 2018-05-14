@@ -1,4 +1,4 @@
-oenv:
+env:
     global:
         - REPO_DIR=pyosmium
         # Commit from your-project that you want to build
