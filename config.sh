@@ -28,5 +28,6 @@ function run_tests {
     # Runs tests on installed distribution from an empty directory
     python --version
     # python /io/pyosmium/tests/run_tests.py - empty directory - no tests here...
-    python -c "import osmium"
+    cd /
+    LD_DEBUG=all python -c "import osmium"
 }
