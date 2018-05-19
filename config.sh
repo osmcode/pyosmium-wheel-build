@@ -25,7 +25,7 @@ function pre_build {
     cd "${BOOST_ROOT}"
     cat << EOF > tools/build/src/site-config.jam
 using gcc ;
-using python : : $(cpython_path $PYTHON_VERSION $UNICODE_WIDTH) ;
+using python : : $(cpython_path "${PYTHON_VERSION}" "${UNICODE_WIDTH}") ;
 EOF
 
 #using python : 2.7u : /opt/python/cp27-cp27mu ;
@@ -35,7 +35,8 @@ EOF
     echo "Using follwing BOOST configuration:"
     cat tools/build/src/site-config.jam
 
-    $BOOST_PREFIX/bin/b2 --with-python --toolset=gcc --prefix="${BOOST_PREFIX}" stage install
+    "${BOOST_PREFIX}"/bin/b2 --with-python --toolset=gcc --prefix="${BOOST_PREFIX}" stage install
+    export LD_LIBRARY_PATH="${BOOST_PREFIX}/lib:${LD_LIBRARY_PATH}"
     # cd stage/lib tar cf - . | ( cd /usr/local/lib64 && tar xf - )
 
 
