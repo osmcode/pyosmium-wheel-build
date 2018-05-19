@@ -42,7 +42,6 @@ EOF
 #        ln -s /usr/lib/libboost_python.so.1.48.0 /usr/lib/libboost_python.so
 #    fi
 
-    export BOOST_VERSION=148
     export LIBOSMIUM_PREFIX=/io/libosmium
     export PROTOZERO_PREFIX=/io/protozero
 }
