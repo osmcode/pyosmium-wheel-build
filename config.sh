@@ -11,15 +11,17 @@ function pre_build {
 
     yum install -y sparsehash-devel bzip2-devel zlib-devel
 
-    mkdir -p /src/boost
-    cd /src/boost
+    mkdir -p boost
+    RETURN_PWD="$(pwd)"
+    cd boost
+    export BOOST_PREFIX="$(pwd)"
     # curl -L https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_67_0.tar.bz2 | tar xfj
     curl -L https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2 | tar xfj -
     cd boost_1_66_0/
     BOOST_ROOT="$(pwd)"
     cd tools/build
     sh bootstrap.sh
-    ./b2 install --prefix=/usr
+    ./b2 install --prefix="$(BOOST_PREFIX)"
     cd "${BOOST_ROOT}"
     cat << EOF > tools/build/src/site-config.jam
 using gcc ;
@@ -30,7 +32,10 @@ EOF
 #using python : 3.4 : /opt/python/cp34-cp34m ;
 #using python : 3.5 : /opt/python/cp35-cp35m ;
 #using python : 3.6 : /opt/python/cp36-cp36m ;
-    b2 --with-python --toolset=gcc stage install
+    echo "Using follwing BOOST configuration:"
+    cat tools/build/src/site-config.jam
+
+    b2 --with-python --toolset=gcc --prefix="$(BOOST_PREFIX)" stage install
     # cd stage/lib tar cf - . | ( cd /usr/local/lib64 && tar xf - )
 
 
@@ -45,6 +50,8 @@ EOF
 
     export LIBOSMIUM_PREFIX=/io/libosmium
     export PROTOZERO_PREFIX=/io/protozero
+    echo "Coming back to ${RETURN_PWD}"
+    cd "${RETURN_PWD}"
 }
 
 function run_tests {
