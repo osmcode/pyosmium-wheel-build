@@ -29,8 +29,9 @@ EOF
 #using python : 3.4 : /opt/python/cp34-cp34m ;
 #using python : 3.5 : /opt/python/cp35-cp35m ;
 #using python : 3.6 : /opt/python/cp36-cp36m ;
-    b2 --with-python --toolset=gcc
-    cd stage/libs tar cf - . | ( cd /usr/local/lib64 && tar xf - )
+    b2 --with-python --toolset=gcc stage install
+    # cd stage/lib tar cf - . | ( cd /usr/local/lib64 && tar xf - )
+
 
 
  #   if [ -e /usr/lib64/libboost_python.so.1.48.0  ] && [ ! -e /usr/lib64/libboost_python.so  ] ; then
