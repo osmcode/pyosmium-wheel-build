@@ -36,7 +36,7 @@ function pre_build {
         cd "${BOOST_ROOT}"
         cat << EOF > tools/build/src/site-config.jam
             using gcc ;
-            using python : : $(cpython_path "${PYTHON_VERSION}" "${UNICODE_WIDTH}")/bin/python  ;
+            using python : : $(cpython_path "${PYTHON_VERSION}" "${UNICODE_WIDTH}")/bin/python : $(echo $(cpython_path "${PYTHON_VERSION}" "${UNICODE_WIDTH}")/include/*) ;
 EOF
         echo "Using following BOOST configuration:"
         cat tools/build/src/site-config.jam
