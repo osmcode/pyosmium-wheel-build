@@ -27,7 +27,7 @@ function pre_build {
 using gcc ;
 using python : : $(cpython_path "${PYTHON_VERSION}" "${UNICODE_WIDTH}") ;
 EOF
-    echo "Using follwing BOOST configuration:"
+    echo "Using following BOOST configuration:"
     cat tools/build/src/site-config.jam
 
     "${BOOST_PREFIX}"/bin/b2 --with-python --toolset=gcc --prefix="${BOOST_PREFIX}" stage install
@@ -35,6 +35,8 @@ EOF
     echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
     ls ${BOOST_PREFIX}/lib
     echo "End of BOOST libraries list"
+    # update ldconfig cache, so find_library will find it
+    ldconfig ${BOOST_PREFIX}/lib
 
  #   if [ -e /usr/lib64/libboost_python.so.1.48.0  ] && [ ! -e /usr/lib64/libboost_python.so  ] ; then
  #       ln -sf /usr/lib64/libboost_python.so.1.48.0 /usr/lib64/libboost_python.so
