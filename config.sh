@@ -21,7 +21,7 @@ function pre_build {
     BOOST_ROOT="$(pwd)"
     cd tools/build
     sh bootstrap.sh
-    ./b2 install --prefix="$(BOOST_PREFIX)"
+    ./b2 install --prefix="${BOOST_PREFIX}"
     cd "${BOOST_ROOT}"
     cat << EOF > tools/build/src/site-config.jam
 using gcc ;
