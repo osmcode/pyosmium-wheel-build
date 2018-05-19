@@ -35,7 +35,7 @@ EOF
     echo "Using follwing BOOST configuration:"
     cat tools/build/src/site-config.jam
 
-    b2 --with-python --toolset=gcc --prefix="${BOOST_PREFIX}" stage install
+    $BOOST_PREFIX/bin/b2 --with-python --toolset=gcc --prefix="${BOOST_PREFIX}" stage install
     # cd stage/lib tar cf - . | ( cd /usr/local/lib64 && tar xf - )
 
 
