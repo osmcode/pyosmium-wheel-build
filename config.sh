@@ -51,5 +51,5 @@ function run_tests {
     python --version
     # python /io/pyosmium/tests/run_tests.py - empty directory - no tests here...
     cd /
-    LD_DEBUG=all python -c "import osmium"
+    python -c "import osmium"
 }
