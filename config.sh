@@ -11,7 +11,7 @@ function pre_build {
 
     if [ -n "$IS_OSX" ] ; then
         brew update
-        USE_PYTHON_VERSION=${$PYTHON_VERSION:0:1}
+        USE_PYTHON_VERSION=${PYTHON_VERSION:0:1}
         if [ ${USE_PYTHON_VERSION} -eq 2 ] ; then
             PYTHON_SUFFIX=
         else
