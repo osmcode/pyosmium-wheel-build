@@ -23,8 +23,9 @@ function pre_build {
     cd "${BOOST_ROOT}"
     cat << EOF > tools/build/src/site-config.jam
 using gcc ;
+using python : : $(cpython_path $PYTHON_VERSION $UNICODE_WIDTH) ;
 EOF
-# using python : 2.7 : /opt/python/cp27-cp27m ;
+
 #using python : 2.7u : /opt/python/cp27-cp27mu ;
 #using python : 3.4 : /opt/python/cp34-cp34m ;
 #using python : 3.5 : /opt/python/cp35-cp35m ;
