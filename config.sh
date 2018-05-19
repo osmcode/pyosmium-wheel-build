@@ -27,19 +27,14 @@ function pre_build {
 using gcc ;
 using python : : $(cpython_path "${PYTHON_VERSION}" "${UNICODE_WIDTH}") ;
 EOF
-
-#using python : 2.7u : /opt/python/cp27-cp27mu ;
-#using python : 3.4 : /opt/python/cp34-cp34m ;
-#using python : 3.5 : /opt/python/cp35-cp35m ;
-#using python : 3.6 : /opt/python/cp36-cp36m ;
     echo "Using follwing BOOST configuration:"
     cat tools/build/src/site-config.jam
 
     "${BOOST_PREFIX}"/bin/b2 --with-python --toolset=gcc --prefix="${BOOST_PREFIX}" stage install
     export LD_LIBRARY_PATH="${BOOST_PREFIX}/lib:${LD_LIBRARY_PATH}"
-    # cd stage/lib tar cf - . | ( cd /usr/local/lib64 && tar xf - )
-
-
+    echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+    ls ${BOOST_PREFIX}/lib
+    echo "End of BOOST libraries list"
 
  #   if [ -e /usr/lib64/libboost_python.so.1.48.0  ] && [ ! -e /usr/lib64/libboost_python.so  ] ; then
  #       ln -sf /usr/lib64/libboost_python.so.1.48.0 /usr/lib64/libboost_python.so
