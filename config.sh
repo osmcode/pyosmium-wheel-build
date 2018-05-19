@@ -12,12 +12,12 @@ function pre_build {
     if [ -n "$IS_OSX" ] ; then
         brew update
         USE_PYTHON_VERSION=${PYTHON_VERSION:0:1}
-        if [ ${USE_PYTHON_VERSION} -eq 2 ] ; then
+        if [ "${USE_PYTHON_VERSION}" = "2" ] ; then
             PYTHON_SUFFIX=
         else
             PYTHON_SUFFIX=3
         fi
-        brew outdated python@${USE_PYTHON_VERSION} || brew upgrade python@${USE_PYTHON_VERSION}
+        # brew outdated python@${USE_PYTHON_VERSION} || brew upgrade python@${USE_PYTHON_VERSION}
         brew install google-sparsehash
         brew install boost-python${PYTHON_SUFFIX}
     else
@@ -26,7 +26,6 @@ function pre_build {
         RETURN_PWD="$(pwd)"
         cd boost
         export BOOST_PREFIX="$(pwd)"
-        # curl -L https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_67_0.tar.bz2 | tar xfj
         curl -L https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2 | tar xfj -
         cd boost_1_66_0/
         BOOST_ROOT="$(pwd)"
