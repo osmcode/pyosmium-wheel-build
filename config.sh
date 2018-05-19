@@ -9,42 +9,51 @@ function pre_build {
 
     # this is run twice
 
-    yum install -y sparsehash-devel bzip2-devel zlib-devel
-
-    mkdir -p boost
-    RETURN_PWD="$(pwd)"
-    cd boost
-    export BOOST_PREFIX="$(pwd)"
-    # curl -L https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_67_0.tar.bz2 | tar xfj
-    curl -L https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2 | tar xfj -
-    cd boost_1_66_0/
-    BOOST_ROOT="$(pwd)"
-    cd tools/build
-    sh bootstrap.sh
-    ./b2 install --prefix="${BOOST_PREFIX}"
-    cd "${BOOST_ROOT}"
-    cat << EOF > tools/build/src/site-config.jam
-using gcc ;
-using python : : $(cpython_path "${PYTHON_VERSION}" "${UNICODE_WIDTH}") ;
+    if [ -n "$IS_OSX" ] ; then
+        brew update
+        USE_PYTHON_VERSION=${$PYTHON_VERSION:0:1}
+        if [ ${USE_PYTHON_VERSION} -eq 2 ] ; then
+            PYTHON_SUFFIX=
+        else
+            PYTHON_SUFFIX=3
+        fi
+        brew outdated python@${USE_PYTHON_VERSION} || brew upgrade python@${USE_PYTHON_VERSION}
+        brew install google-sparsehash
+        brew install boost-python${PYTHON_SUFFIX}
+    else
+        yum install -y sparsehash-devel bzip2-devel zlib-devel
+        mkdir -p boost
+        RETURN_PWD="$(pwd)"
+        cd boost
+        export BOOST_PREFIX="$(pwd)"
+        # curl -L https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_67_0.tar.bz2 | tar xfj
+        curl -L https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2 | tar xfj -
+        cd boost_1_66_0/
+        BOOST_ROOT="$(pwd)"
+        cd tools/build
+        sh bootstrap.sh
+        ./b2 install --prefix="${BOOST_PREFIX}"
+        cd "${BOOST_ROOT}"
+        cat << EOF > tools/build/src/site-config.jam
+            using gcc ;
+            using python : : $(cpython_path "${PYTHON_VERSION}" "${UNICODE_WIDTH}") ;
 EOF
-    echo "Using following BOOST configuration:"
-    cat tools/build/src/site-config.jam
+        echo "Using following BOOST configuration:"
+        cat tools/build/src/site-config.jam
 
-    "${BOOST_PREFIX}"/bin/b2 --with-python --toolset=gcc --prefix="${BOOST_PREFIX}" stage install
-    export LD_LIBRARY_PATH="${BOOST_PREFIX}/lib:${LD_LIBRARY_PATH}"
-    echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
-    ls ${BOOST_PREFIX}/lib
-    echo "End of BOOST libraries list"
-    # update ldconfig cache, so find_library will find it
-    ldconfig ${BOOST_PREFIX}/lib
+        echo "Using PYTHON_VERSION: ${PYTHON_VERSION}"
+        "${BOOST_PREFIX}"/bin/b2 --with-python --toolset=gcc --prefix="${BOOST_PREFIX}" stage install
 
- #   if [ -e /usr/lib64/libboost_python.so.1.48.0  ] && [ ! -e /usr/lib64/libboost_python.so  ] ; then
- #       ln -sf /usr/lib64/libboost_python.so.1.48.0 /usr/lib64/libboost_python.so
- #   fi
+        # Add boost path to loader and linker
+        export LD_LIBRARY_PATH="${BOOST_PREFIX}/lib:${LD_LIBRARY_PATH}"
+        export LIBRARY_PATH="${BOOST_PREFIX}/lib"
 
-#    if [ -e /usr/lib/libboost_python.so.1.48.0 ] && [ ! -e /usr/lib/libboost_python.so ] ; then
-#        ln -s /usr/lib/libboost_python.so.1.48.0 /usr/lib/libboost_python.so
-#    fi
+        echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+        ls ${BOOST_PREFIX}/lib
+        echo "End of BOOST libraries list"
+        # update ldconfig cache, so find_library will find it
+        ldconfig ${BOOST_PREFIX}/lib
+    fi
 
     export LIBOSMIUM_PREFIX=/io/libosmium
     export PROTOZERO_PREFIX=/io/protozero
