@@ -10,13 +10,6 @@ function pre_build {
 
     if [ -n "$IS_OSX" ] ; then
         brew update
-        USE_PYTHON_VERSION=${PYTHON_VERSION:0:1}
-        if [ "${USE_PYTHON_VERSION}" = "2" ] ; then
-            PYTHON_SUFFIX=
-        else
-            PYTHON_SUFFIX=3
-        fi
-        # brew outdated python@${USE_PYTHON_VERSION} || brew upgrade python@${USE_PYTHON_VERSION}
         brew install google-sparsehash || true
     else
         yum install -y sparsehash-devel bzip2-devel zlib-devel
@@ -38,6 +31,9 @@ function pre_build {
                 using clang ;
                 using python : : ${PYTHON_EXE} : $(${PYTHON_EXE} -c 'from sysconfig import get_paths; print(get_paths()["include"])') ;
 EOF
+        echo "Python includes: "
+        ls -d $(${PYTHON_EXE} -c 'from sysconfig import get_paths; print(get_paths()["include"])')
+        ls $(${PYTHON_EXE} -c 'from sysconfig import get_paths; print(get_paths()["include"])')
     else
         cat << EOF > tools/build/src/site-config.jam
                 using gcc ;
