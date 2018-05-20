@@ -18,8 +18,7 @@ function pre_build {
             PYTHON_SUFFIX=3
         fi
         # brew outdated python@${USE_PYTHON_VERSION} || brew upgrade python@${USE_PYTHON_VERSION}
-        brew install google-sparsehash
-        brew install boost-python${PYTHON_SUFFIX}
+        brew install google-sparsehash boost-python${PYTHON_SUFFIX} || true
     else
         yum install -y sparsehash-devel bzip2-devel zlib-devel
         mkdir -p boost
