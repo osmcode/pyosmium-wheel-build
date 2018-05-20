@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -ex
+#set -ex
 mkdir -p dist
 
 if [ $(uname) = "Darwin" ] ; then
@@ -9,7 +9,8 @@ else
     TRAVIS_OS_NAME="linux"
 fi
 
-for p in "2.7" "3.4" "3.5" "3.6" ; do
+# for p in "2.7" "3.4" "3.5" "3.6" ; do
+for p in "3.4" "3.5" "3.6" "2.7" ; do
     export MB_PYTHON_VERSION="${p}"
 	source multibuild/common_utils.sh
 	source multibuild/travis_steps.sh
