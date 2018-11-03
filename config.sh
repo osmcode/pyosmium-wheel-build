@@ -46,21 +46,6 @@ function pre_build {
     ./b2 --prefix="${BOOST_PREFIX}" --without-python install 
     cd "${BOOST_ROOT}"
 
-    if [ -n "$IS_OSX" ] ; then
-        export DYLD_LIBRARY_PATH="${BOOST_PREFIX}/lib:${DYLD_LIBRARY_PATH}"
-    else
-        # Add boost path to loader and linker
-        export LD_LIBRARY_PATH="${BOOST_PREFIX}/lib:${LD_LIBRARY_PATH}"
-        export LIBRARY_PATH="${BOOST_PREFIX}/lib"
-
-        echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
-        ls ${BOOST_PREFIX}/lib
-        echo "End of BOOST libraries list"
-        # update ldconfig cache, so find_library will find it
-        ldconfig ${BOOST_PREFIX}/lib
-    fi
-
-
     ####
     # END of BOOST stuff
     ####
