@@ -22,6 +22,7 @@ function pre_build {
     ####
     if [ -n "$IS_OSX" ] ; then
         # nothing?
+        echo -n
     else 
         curl -o /tmp/cmake.sh https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
         (
