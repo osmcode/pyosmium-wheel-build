@@ -38,6 +38,7 @@ function pre_build {
     ####
     # BOOST 
     ####
+
     mkdir -p boost
     cd boost
     export BOOST_PREFIX="$(pwd)"
@@ -48,6 +49,7 @@ function pre_build {
     sh bootstrap.sh
     ./b2 --prefix="${BOOST_PREFIX}" --without-python install 
     cd "${BOOST_ROOT}"
+    "${BOOST_PREFIX}"/bin/b2 --without-python --prefix="${BOOST_PREFIX}" install
 
     ####
     # END of BOOST stuff
