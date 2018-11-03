@@ -20,14 +20,16 @@ function pre_build {
     ####
     # CMake
     ####
-    curl -o /tmp/cmake.sh https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
-    (
-        cd /
-        echo $'y\nn' | bash /tmp/cmake.sh
-    )
-    cmake --version
-    mkdir -p ${RETURN_PWD}/pyosmium/contrib/
-
+    if [ -n "$IS_OSX" ] ; then
+        # nothing?
+    else 
+        curl -o /tmp/cmake.sh https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
+        (
+            cd /
+            echo $'y\nn' | bash /tmp/cmake.sh
+        )
+        cmake --version
+    fi
     ####
     # End of CMake
     ####
