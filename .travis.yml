@@ -67,6 +67,13 @@ matrix:
       env:
         - MB_PYTHON_VERSION=3.6
         - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+        - PLAT=i686
     - os: osx
       language: generic
       env:
@@ -86,6 +93,10 @@ matrix:
     - os: osx
       language: generic
       env:
+        - MB_PYTHON_VERSION=3.7
+    - os: osx
+      language: generic
+      env:
         - MB_PYTHON_VERSION=pypy-5.7
 
 before_install:
@@ -95,7 +106,7 @@ before_install:
 
 install:
     # Maybe get and clean and patch source
-    - clean_code $REPO_DIR $BUILD_COMMIT
+    - clean_code $REPO_DIR
     - build_wheel $REPO_DIR $PLAT
 
 script:
