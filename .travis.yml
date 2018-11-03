@@ -2,7 +2,7 @@ env:
     global:
         - REPO_DIR=pyosmium
         # Commit from your-project that you want to build
-        - BUILD_COMMIT=travis_wheel
+        - BUILD_COMMIT=master
         # pip dependencies to _build_ your project
         - BUILD_DEPENDS=""
         # pip dependencies to _test_ your project.  Include any dependencies
@@ -67,6 +67,13 @@ matrix:
       env:
         - MB_PYTHON_VERSION=3.6
         - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+        - PLAT=i686
     - os: osx
       language: generic
       env:
@@ -86,6 +93,10 @@ matrix:
     - os: osx
       language: generic
       env:
+        - MB_PYTHON_VERSION=3.7
+    - os: osx
+      language: generic
+      env:
         - MB_PYTHON_VERSION=pypy-5.7
 
 before_install:
@@ -102,13 +113,10 @@ script:
     - install_run $PLAT
 
 deploy:
-  provider: s3
+  provider: releases
   skip_cleanup: true
-  acl: public_read
-  region: eu-west-1
-  local_dir: wheelhouse
-  access_key_id: ${AWS_ACCESS_KEY_ID}
-  secret_access_key: ${AWS_SECRET}
-  bucket: pyosmium
+  file: "wheelhouse/*whl"
+  file_glob: true
+  api_key: ${GITHUB_API_KEY}
   on:
-    all_branches: true
+    branch: master

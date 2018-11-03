@@ -3,11 +3,13 @@
 	url = https://github.com/matthew-brett/multibuild.git
 [submodule "pyosmium"]
 	path = pyosmium
-	url = https://github.com/wiktorn/pyosmium.git
-	branch = travis_wheel
+	url = https://github.com/osmcode/pyosmium.git
 [submodule "libosmium"]
 	path = libosmium
 	url = https://github.com/osmcode/libosmium.git
 [submodule "protozero"]
 	path = protozero
 	url = https://github.com/mapbox/protozero
+[submodule "pybind11"]
+	path = pybind11
+	url = https://github.com/pybind/pybind11.git

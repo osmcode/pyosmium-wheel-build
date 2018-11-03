@@ -10,7 +10,7 @@ else
 fi
 
 # for p in "2.7" "3.4" "3.5" "3.6" ; do
-for p in "3.4" "3.5" "3.6" "2.7" ; do
+for p in "3.4" "3.5" "3.6" "3.7" "2.7" ; do
     export MB_PYTHON_VERSION="${p}"
 	source multibuild/common_utils.sh
 	source multibuild/travis_steps.sh
