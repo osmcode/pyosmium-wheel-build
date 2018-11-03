@@ -49,7 +49,7 @@ function pre_build {
     sh bootstrap.sh
     ./b2 --prefix="${BOOST_PREFIX}" --without-python install 
     cd "${BOOST_ROOT}"
-    "${BOOST_PREFIX}"/bin/b2 --without-python --prefix="${BOOST_PREFIX}" install
+    "${BOOST_PREFIX}"/bin/b2 --without-python --prefix="${BOOST_PREFIX}" install > /dev/null
 
     ####
     # END of BOOST stuff
