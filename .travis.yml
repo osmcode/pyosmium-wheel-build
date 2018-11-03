@@ -102,13 +102,9 @@ script:
     - install_run $PLAT
 
 deploy:
-  provider: s3
+  provider: releases
   skip_cleanup: true
-  acl: public_read
-  region: eu-west-1
-  local_dir: wheelhouse
-  access_key_id: ${AWS_ACCESS_KEY_ID}
-  secret_access_key: ${AWS_SECRET}
-  bucket: pyosmium
+  file: "wheelhouse/*gz"
+  api_key: ${GITHUB_API_KEY}
   on:
-    all_branches: true
+    branch: master
