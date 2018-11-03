@@ -56,6 +56,7 @@ function pre_build {
     echo "Using PYTHON_VERSION: ${PYTHON_VERSION}"
     export LIBOSMIUM_PREFIX=${RETURN_PWD}/libosmium
     export PROTOZERO_PREFIX=${RETURN_PWD}/protozero
+    export PYBIND11_PREFIX=${RETURN_PWD}/pybind11
     echo "Coming back to ${RETURN_PWD}"
     cd "${RETURN_PWD}"
 
