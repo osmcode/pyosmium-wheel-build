@@ -115,7 +115,8 @@ script:
 deploy:
   provider: releases
   skip_cleanup: true
-  file: "wheelhouse/*gz"
+  file: "wheelhouse/*whl"
+  file_glob: true
   api_key: ${GITHUB_API_KEY}
   on:
     branch: master
