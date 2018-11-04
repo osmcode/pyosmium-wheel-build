@@ -2,7 +2,10 @@ env:
     global:
         - REPO_DIR=pyosmium
         # Commit from your-project that you want to build
-        - BUILD_COMMIT=master
+        # commented so we manually set, which version to build
+        # BUILD_COMMIT requires following line in install section: 
+        # - clean_code $REPO_DIR $BUILD_COMMIT
+        # - BUILD_COMMIT=master
         # pip dependencies to _build_ your project
         - BUILD_DEPENDS=""
         # pip dependencies to _test_ your project.  Include any dependencies
@@ -105,8 +108,6 @@ before_install:
     - before_install
 
 install:
-    # Maybe get and clean and patch source
-    - clean_code $REPO_DIR $BUILD_COMMIT
     - build_wheel $REPO_DIR $PLAT
 
 script:
