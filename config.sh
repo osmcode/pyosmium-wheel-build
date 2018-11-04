@@ -3,7 +3,8 @@
 # Define custom utilities
 # Test for OSX with [ -n "$IS_OSX" ]
 
-CMAKE_BIN_URL=https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
+CMAKE_BIN_URL_64=https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
+CMAKE_BIN_URL_32=https://cmake.org/files/v3.6/cmake-3.6.3-Linux-i386.sh
 
 function pre_build {
     # Any stuff that you need to do before you start building the wheels
@@ -24,7 +25,11 @@ function pre_build {
         # nothing?
         echo -n
     else 
-        curl -o /tmp/cmake.sh https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
+        if [ "x${PLAT}" == "xi686" ] ; then
+            curl -o /tmp/cmake.sh "${CMAKE_BIN_URL_32}"
+        else
+            curl -o /tmp/cmake.sh "${CMAKE_BIN_URL_64}"
+        fi
         (
             cd /
             echo $'y\nn' | bash /tmp/cmake.sh
