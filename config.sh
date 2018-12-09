@@ -5,6 +5,7 @@
 
 CMAKE_BIN_URL_64=https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
 CMAKE_BIN_URL_32=https://cmake.org/files/v3.6/cmake-3.6.3-Linux-i386.sh
+ZLIB_SOURCE=https://zlib.net/zlib-1.2.11.tar.gz
 
 function pre_build {
     # Any stuff that you need to do before you start building the wheels
@@ -15,7 +16,14 @@ function pre_build {
         brew update
         brew install google-sparsehash || true
     else
-        yum install -y sparsehash-devel bzip2-devel zlib-devel
+        yum install -y sparsehash-devel bzip2-devel
+        mkdir zlib
+        cd zlib
+        curl -o zlib.tgz "${ZLIB_SOURCE}"
+        tar -x -z --strip-components=1 -f zlib.tgz
+        ./configure -prefix=/usr
+        make all install
+        cd "${RETURN_PWD}"
     fi
 
     ####
