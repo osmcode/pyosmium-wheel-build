@@ -3,10 +3,6 @@
 # Define custom utilities
 # Test for OSX with [ -n "$IS_OSX" ]
 
-CMAKE_BIN_URL_64=https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
-CMAKE_BIN_URL_32=https://cmake.org/files/v3.6/cmake-3.6.3-Linux-i386.sh
-ZLIB_SOURCE=https://zlib.net/zlib-1.2.11.tar.gz
-
 function pre_build {
     # Any stuff that you need to do before you start building the wheels
     # Runs in the root directory of this repository.
@@ -18,30 +14,8 @@ function pre_build {
         brew update
         brew install google-sparsehash || true
     else
-        yum install -y sparsehash-devel
+        yum install -y sparsehash-devel expat-devel
     fi
-
-    ####
-    # CMake
-    ####
-    if [ -n "$IS_OSX" ] ; then
-        # nothing?
-        echo -n
-    else 
-        if [ "x${PLAT}" == "xi686" ] ; then
-            curl -o /tmp/cmake.sh "${CMAKE_BIN_URL_32}"
-        else
-            curl -o /tmp/cmake.sh "${CMAKE_BIN_URL_64}"
-        fi
-        (
-            cd /
-            echo $'y\nn' | bash /tmp/cmake.sh
-        )
-        cmake --version
-    fi
-    ####
-    # End of CMake
-    ####
 
     ####
     # BOOST 
