@@ -35,6 +35,73 @@ matrix:
     # Exclude the default Python 3.5 build
     - python: 3.5
   include:
+    # Manylinux1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+        - UNICODE_WIDTH=16
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+        - PLAT=i686
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+        - PLAT=i686
+        - UNICODE_WIDTH=16
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.4
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.4
+        - PLAT=i686
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.5
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.5
+        - PLAT=i686
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.6
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.6
+        - PLAT=i686
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+        - PLAT=i686
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.8
+        - MB_ML_VER=1
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.8
+        - PLAT=i686
+        - MB_ML_VER=1
+    # Manylinux2010 (default)
     - os: linux
       env: MB_PYTHON_VERSION=2.7
     - os: linux
@@ -85,6 +152,7 @@ matrix:
       env:
         - MB_PYTHON_VERSION=3.8
         - PLAT=i686
+    # macOS wheels
     - os: osx
       language: generic
       env:
