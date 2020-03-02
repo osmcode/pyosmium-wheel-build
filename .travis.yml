@@ -166,6 +166,7 @@ script:
 deploy:
   provider: releases
   cleanup: false
+  skip_cleanup: true
   file: "wheelhouse/*whl"
   file_glob: true
   token: ${GITHUB_API_KEY}
