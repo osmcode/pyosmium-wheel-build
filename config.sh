@@ -81,5 +81,7 @@ function run_tests {
     fi
     python --version
     cd ../pyosmium/test
-    python -m nose test*py
+    # Remove build artifacts so they will not interfere with tests
+    rm -rf ../build
+    python -m nose
 }
