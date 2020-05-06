@@ -81,5 +81,5 @@ function run_tests {
     fi
     python --version
     cd ../pyosmium/test
-    python -m nose
+    python -m nose test*py
 }
