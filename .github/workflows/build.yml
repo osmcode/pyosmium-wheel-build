@@ -1,0 +1,39 @@
+name: build
+
+on: push
+
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 1
+
+    - name: Setup python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Build manylinux
+      uses: RalfG/python-wheels-manylinux-build@v0.3.1-manylinux2014_x86_64
+      with:
+        python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38m'
+
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_name: Release ${{ github.ref }}
+        draft: true
+
+    - name: Upload assets
+      uses: alexellis/upload-assets@0.2.2
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        asset_paths: '["./wheelhouse/*whl"]'
+
