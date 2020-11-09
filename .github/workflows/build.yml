@@ -1,39 +1,46 @@
-name: build
+name: Build
 
 on: push
 
-
 jobs:
-  linux:
-    runs-on: ubuntu-latest
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [ubuntu-18.04, windows-latest, macos-latest] # skipp windows and mac for now
+        os: [ubuntu-18.04]
+
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: true
-        fetch-depth: 1
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 1
 
-    - name: Setup python
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.8
-    - name: Build manylinux
-      uses: RalfG/python-wheels-manylinux-build@v0.3.1-manylinux2014_x86_64
-      with:
-        python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38m'
 
-    - name: Create release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        release_name: Release ${{ github.ref }}
-        draft: true
+      - uses: actions/setup-python@v2
+        name: Install Python
+        with:
+          python-version: '3.7'
 
-    - name: Upload assets
-      uses: alexellis/upload-assets@0.2.2
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      with:
-        asset_paths: '["./wheelhouse/*whl"]'
+      - name: Install cibuildwheel
+        run: |
+          python -m pip install cibuildwheel==1.6.4
+
+      - name: Install Visual C++ for Python 2.7
+        if: runner.os == 'Windows'
+        run: |
+          choco install vcpython27 -f -y
+
+      - name: Build wheels
+        env:
+          CIBW_SKIP: "cp27-* cp35-* pp*"
+          CIBW_BEFORE_BUILD_LINUX: "/bin/bash /project/cibuild/linux_steps.sh"
+
+        run: |
+          python -m cibuildwheel --output-dir wheelhouse pyosmium
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
 
