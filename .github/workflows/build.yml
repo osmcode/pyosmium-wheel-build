@@ -32,6 +32,8 @@ jobs:
           CIBW_SKIP: "cp27-* cp35-* pp*"
           CIBW_BEFORE_BUILD_LINUX: "/bin/bash cibuild/linux_steps.sh"
           CIBW_BEFORE_BUILD_MACOS: "/bin/bash cibuild/macos_steps.sh"
+          CIBW_TEST_COMMAND: "cd {project}/pyosmium/test && rm -rf ../build && python -m nose"
+          CIBW_BEFORE_TEST: "pip install nose mock shapely"
 
         run: |
           python -m cibuildwheel --output-dir wheelhouse pyosmium
