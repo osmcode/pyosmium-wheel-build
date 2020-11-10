@@ -2,6 +2,8 @@
 set -ex
 set -o functrace
 
+echo "Running Linux steps"
+
 CMAKE_BIN_URL_64=https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh
 CMAKE_BIN_URL_32=https://cmake.org/files/v3.6/cmake-3.6.3-Linux-i386.sh
 
@@ -32,30 +34,22 @@ function build_cmake {
     cmake --version
 }
 
+RETURN_PWD=$(pwd)
 
-if [ -f /project/cibuild_steps_done ] ; then
+if [ -f cibuild_steps_done ] ; then
     exit 0
 fi
 
-. /project/multibuild/manylinux_utils.sh
-. /project/multibuild/library_builders.sh
+. $(pwd)/multibuild/manylinux_utils.sh
+. $(pwd)/multibuild/library_builders.sh
 
-mkdir /project/pyosmium/contrib
+cd ${RETURN_PWD}
 
-ln -sf /project/pybind11 /project/pyosmium/contrib/pybind11
-ln -sf /project/libosmium /project/pyosmium/contrib/libosmium
-ln -sf /project/protozero /project/pyosmium/contrib/protozero
+mkdir pyosmium/contrib
 
-# install dependencies
-#        if [ "$MB_ML_VER" == "1" ] ; then
-#             yum install -y sparsehash-devel
-#             build_cmake
-#             build_boost
-#         fi
-#         if [ "$MB_ML_VER" == "2010" ] ; then
-#             # cmake is already present in image
-#             yum install -y sparsehash-devel expat-devel boost-devel
-#         fi
+ln -sf $(pwd)/pybind11 pyosmium/contrib/pybind11
+ln -sf $(pwd)/libosmium pyosmium/contrib/libosmium
+ln -sf $(pwd)/protozero pyosmium/contrib/protozero
 
 
 yum install -y sparsehash-devel expat-devel boost-devel zlib-devel
@@ -66,4 +60,4 @@ build_new_zlib
 build_bzip2
 build_cmake
 
-touch /project/cibuild_steps_done
+touch cibuild_steps_done
