@@ -52,7 +52,7 @@ ln -sf $(pwd)/libosmium pyosmium/contrib/libosmium
 ln -sf $(pwd)/protozero pyosmium/contrib/protozero
 
 
-yum install -y sparsehash-devel expat-devel boost-devel zlib-devel
+yum install -y sparsehash-devel expat-devel boost-devel zlib-devel geos
 
 
 # install bzip2
