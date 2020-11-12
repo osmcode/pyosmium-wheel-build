@@ -45,6 +45,7 @@ jobs:
 
       - name: Test wheel 3.6
         run: |
+          python --version
           python -m pip install nose mock shapely
           python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
           (cd pyosmium/test && rm -rf ../build && python -m nose)
@@ -56,6 +57,7 @@ jobs:
 
       - name: Test wheel 3.7
         run: |
+          python --version
           python -m pip install nose mock shapely
           python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
           (cd pyosmium/test && rm -rf ../build && python -m nose)
@@ -67,17 +69,7 @@ jobs:
 
       - name: Test wheel 3.8
         run: |
-          python -m pip install nose mock shapely
-          python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
-          (cd pyosmium/test && rm -rf ../build && python -m nose)
-
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-
-      - name: Test wheel 3.9
-        run: |
+          python --version
           python -m pip install nose mock shapely
           python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
           (cd pyosmium/test && rm -rf ../build && python -m nose)
