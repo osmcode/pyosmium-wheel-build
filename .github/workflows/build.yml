@@ -32,11 +32,55 @@ jobs:
           CIBW_SKIP: "cp27-* cp35-* pp* cp39-manylinux* cp36-manylinux_i686"
           CIBW_BEFORE_BUILD_LINUX: "/bin/bash cibuild/linux_steps.sh"
           CIBW_BEFORE_BUILD_MACOS: "/bin/bash cibuild/macos_steps.sh"
-          CIBW_TEST_COMMAND: "cd {project}/pyosmium/test && rm -rf ../build && python -m nose"
-          CIBW_BEFORE_TEST: "pip install nose mock shapely"
+          # CIBW_TEST_COMMAND: "cd {project}/pyosmium/test && rm -rf ../build && python -m nose"
+          # CIBW_BEFORE_TEST: "pip install nose mock shapely"
 
         run: |
           python -m cibuildwheel --output-dir wheelhouse pyosmium
+
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
+
+      - name: Test wheel 3.6
+        run: |
+          python -m pip install nose mock shapely
+          python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
+          (cd pyosmium/test && rm -rf ../build && python -m nose)
+
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Test wheel 3.7
+        run: |
+          python -m pip install nose mock shapely
+          python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
+          (cd pyosmium/test && rm -rf ../build && python -m nose)
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Test wheel 3.8
+        run: |
+          python -m pip install nose mock shapely
+          python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
+          (cd pyosmium/test && rm -rf ../build && python -m nose)
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Test wheel 3.9
+        run: |
+          python -m pip install nose mock shapely
+          python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
+          (cd pyosmium/test && rm -rf ../build && python -m nose)
 
       - uses: actions/upload-artifact@v2
         with:
