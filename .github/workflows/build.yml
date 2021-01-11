@@ -79,9 +79,12 @@ jobs:
         with:
           python-version: 3.9
 
+      - name: Setup geos (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get install -y -qq libgeos-dev
+
       - name: Test wheel 3.9
         run: |
-          sudo apt-get install -y -qq libgeos-dev
           python --version
           python -m pip install nose mock shapely
           python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
