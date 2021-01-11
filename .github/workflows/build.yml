@@ -83,6 +83,10 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install -y -qq libgeos-dev
 
+      - name: Setup geos (MacOS)
+        if: matrix.os == 'macos-latest'
+        run: brew install geos
+
       - name: Test wheel 3.9
         run: |
           python --version
