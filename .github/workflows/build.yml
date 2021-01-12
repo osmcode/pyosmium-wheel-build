@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         # os: [ubuntu-18.04, windows-latest, macos-latest] # skip windows 
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-20.04, macos-10.15]
 
     steps:
       - uses: actions/checkout@v2
