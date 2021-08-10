@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         # os: [ubuntu-18.04, windows-latest, macos-latest] # skip windows 
-        os: [ubuntu-20.04, macos-10.15]
+        os: [ubuntu-20.04, macos-10.15, macos-11]
 
     steps:
       - uses: actions/checkout@v2
@@ -29,11 +29,12 @@ jobs:
 
       - name: Build wheels
         env:
-          CIBW_SKIP: "cp27-* cp35-* pp* cp36-manylinux_i686"
+          CIBW_SKIP: "pp* cp36-manylinux_i686"
           CIBW_BEFORE_BUILD_LINUX: "/bin/bash cibuild/linux_steps.sh"
           CIBW_BEFORE_BUILD_MACOS: "/bin/bash cibuild/macos_steps.sh"
           CIBW_TEST_COMMAND: "cd {project}/pyosmium/test && rm -rf ../build && python -m nose"
-          CIBW_TEST_REQUIRES: nose mock shapely
+          CIBW_TEST_REQUIRES: nose mock shapely==1.7.1
+          CIBW_TEST_SKIP: "cp310-*" # cannot install shapely
 
         run: |
           python -m cibuildwheel --output-dir wheelhouse pyosmium
@@ -41,52 +42,3 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           path: ./wheelhouse/*.whl
-
-      - name: Set up Python 3.6
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.6
-
-      - name: Test wheel 3.6
-        run: |
-          python --version
-          python -m pip install nose mock shapely
-          python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
-          (cd pyosmium/test && rm -rf ../build && python -m nose)
-
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-
-      - name: Test wheel 3.7
-        run: |
-          python --version
-          python -m pip install nose mock shapely
-          python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
-          (cd pyosmium/test && rm -rf ../build && python -m nose)
-
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      - name: Test wheel 3.8
-        run: |
-          python --version
-          python -m pip install nose mock shapely
-          python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
-          (cd pyosmium/test && rm -rf ../build && python -m nose)
-
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-
-      - name: Test wheel 3.9
-        run: |
-          python --version
-          python -m pip install nose mock shapely
-          python -m pip install osmium --no-index --find-links file:///$(pwd)/wheelhouse/
-          (cd pyosmium/test && rm -rf ../build && python -m nose)
-
