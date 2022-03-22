@@ -34,6 +34,7 @@ jobs:
           CIBW_BEFORE_BUILD_MACOS: "/bin/bash cibuild/macos_steps.sh"
           CIBW_TEST_COMMAND: "cd {project}/pyosmium && rm -rf build && pytest test"
           CIBW_TEST_REQUIRES: pytest shapely
+          CIBW_TEST_SKIP: "cp310-macosx*" # missing libgeos
 
         run: |
           python -m cibuildwheel --output-dir wheelhouse pyosmium
