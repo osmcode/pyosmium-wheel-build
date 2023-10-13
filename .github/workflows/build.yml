@@ -4,12 +4,16 @@ on: push
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheels on ${{matrix.arch}} for ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         # os: [ubuntu-18.04, windows-latest, macos-latest] # skip windows 
         os: [ubuntu-20.04, macos-11]
+        arch: [auto, aarch64]
+        exclude:
+         - os: macos-11
+           arch: aarch64
 
     steps:
       - uses: actions/checkout@v2
@@ -23,15 +27,23 @@ jobs:
         with:
           python-version: '3.7'
 
+      #cibuildwheel support aarch64, via emulation.
+      #Please refer - https://cibuildwheel.readthedocs.io/en/stable/faq/#emulation
+      - uses: docker/setup-qemu-action@v1
+        if: ${{ matrix.arch == 'aarch64' }}
+        name: Set up QEMU
+
       - name: Install cibuildwheel
         run: |
           python -m pip install cibuildwheel==2.1.1
 
       - name: Build wheels
         env:
+          CIBW_ARCHS_LINUX: ${{matrix.arch}}
           CIBW_SKIP: "pp* *-manylinux_i686"
           CIBW_BEFORE_BUILD_LINUX: "/bin/bash cibuild/linux_steps.sh"
           CIBW_BEFORE_BUILD_MACOS: "/bin/bash cibuild/macos_steps.sh"
+          CIBW_BEFORE_TEST_LINUX: "/bin/bash cibuild/aarch64_extra_steps.sh"
           CIBW_TEST_COMMAND: "cd {project}/pyosmium && rm -rf build && pytest test"
           CIBW_TEST_REQUIRES: pytest shapely
           CIBW_TEST_SKIP: "cp310-macosx*" # missing libgeos
